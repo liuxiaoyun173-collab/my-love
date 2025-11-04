@@ -20,6 +20,7 @@
             --text-color: #333;
             --light-text: #666;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
         
         body {
@@ -44,20 +45,33 @@
             color: white;
             padding: 20px;
             text-align: center;
-            border-radius: 0 0 20px 20px;
+            border-radius: 0 0 30px 30px;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .header-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50,50 C60,40 70,30 50,30 C30,30 40,40 50,50 Z' fill='white'/%3E%3C/svg%3E");
+            background-size: 80px 80px;
         }
         
         .avatar-container {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 4px solid white;
+            border: 4px solid rgba(255, 255, 255, 0.8);
             margin: 0 auto 15px;
             overflow: hidden;
             position: relative;
             box-shadow: var(--shadow);
             cursor: pointer;
+            z-index: 2;
         }
         
         .avatar-img {
@@ -84,11 +98,16 @@
         .app-title {
             font-size: 1.5rem;
             margin-bottom: 5px;
+            font-weight: 600;
+            z-index: 2;
+            position: relative;
         }
         
         .app-subtitle {
             font-size: 0.9rem;
             opacity: 0.9;
+            z-index: 2;
+            position: relative;
         }
         
         .countdown-container {
@@ -98,6 +117,9 @@
             padding: 15px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 15px;
+            backdrop-filter: blur(5px);
+            z-index: 2;
+            position: relative;
         }
         
         .countdown-item {
@@ -119,34 +141,71 @@
             font-size: 0.8rem;
             text-decoration: underline;
             cursor: pointer;
+            z-index: 2;
+            position: relative;
         }
         
-        .nav-tabs {
-            display: flex;
-            overflow-x: auto;
-            padding: 0 10px;
+        .homepage-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .feature-card {
             background: white;
-            border-bottom: 1px solid #eee;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .nav-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .nav-tab {
-            padding: 12px 15px;
-            white-space: nowrap;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
             cursor: pointer;
-            color: var(--light-text);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .nav-tab.active {
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 147, 0.05) 0%, rgba(255, 182, 193, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card:active {
+            transform: translateY(-2px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
             color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--light-text);
         }
         
         .content-section {
@@ -188,6 +247,25 @@
             justify-content: center;
         }
         
+        .back-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .back-btn::before {
+            content: '←';
+            margin-right: 5px;
+        }
+        
+        /* 相册样式 */
         .album-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -213,16 +291,30 @@
             transform: scale(1.05);
         }
         
-        .album-upload {
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 71, 87, 0.8);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #f5f5f5;
-            border: 2px dashed #ccc;
-            cursor: pointer;
         }
         
+        .album-item:hover .delete-btn {
+            opacity: 1;
+        }
+        
+        /* 音乐播放器样式 */
         .music-player {
             background: #f9f9f9;
             border-radius: 15px;
@@ -251,12 +343,16 @@
             border-bottom: 1px solid #eee;
             cursor: pointer;
             transition: background 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .playlist-item:hover, .playlist-item.active {
             background: rgba(255, 107, 147, 0.1);
         }
         
+        /* 日记样式 */
         .diary-list {
             display: flex;
             flex-direction: column;
@@ -268,6 +364,7 @@
             border-radius: 10px;
             padding: 15px;
             box-shadow: var(--shadow);
+            position: relative;
         }
         
         .diary-date {
@@ -280,6 +377,7 @@
             margin: 10px 0;
         }
         
+        /* 记账样式 */
         .expense-form {
             background: white;
             border-radius: 10px;
@@ -326,14 +424,17 @@
             justify-content: space-between;
             padding: 10px;
             border-bottom: 1px solid #eee;
+            position: relative;
         }
         
+        /* 旅游计划样式 */
         .travel-plan {
             background: white;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: var(--shadow);
+            position: relative;
         }
         
         .travel-date {
@@ -347,7 +448,36 @@
             margin: 5px 0;
         }
         
+        /* 删除按钮通用样式 */
+        .item-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .item-delete:hover {
+            opacity: 1;
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 360px) {
+            .homepage-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .album-grid {
                 grid-template-columns: 1fr;
             }
@@ -365,6 +495,10 @@
         @media (min-width: 768px) {
             .app-container {
                 max-width: 500px;
+            }
+            
+            .homepage-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
         
@@ -438,8 +572,9 @@
 <body>
     <div class="app-container no-select">
         <header class="app-header">
+            <div class="header-decoration"></div>
             <div class="avatar-container" id="avatar-container">
-                <img class="avatar-img" id="avatar-img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY5YTllIi8+CiAgPHBhdGggZD0iTTUwLDgwIEMzMCw2MCAxMCw0MCA1MCwyMCBDOTAsNDAgNzAsNjAgNTAsODAgWiIgZmlsbD0iI2ZmNmI5MyIvPgo8L3N2Zz4=" alt="头像">
+                <img class="avatar-img" id="avatar-img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY5YTllIi8+CiAgPHBhdGggZD0iTTUwLDgwIEM0MCw3MCAyMCw1MCA1MCwzMCBDODAsNTAgNjAsNzAgNTAsODAgWiIgZmlsbD0iI2ZmNmI5MyIvPgo8L3N2Zz4=" alt="头像">
                 <div class="avatar-upload" id="avatar-upload">+</div>
                 <input type="file" id="avatar-input" class="file-input" accept="image/*">
             </div>
@@ -467,18 +602,51 @@
             <div class="countdown-edit" id="edit-countdown">编辑倒计时</div>
         </header>
         
-        <nav class="nav-tabs">
-            <div class="nav-tab active" data-tab="memories">相册</div>
-            <div class="nav-tab" data-tab="music">音乐</div>
-            <div class="nav-tab" data-tab="diary">日记</div>
-            <div class="nav-tab" data-tab="expense">记账</div>
-            <div class="nav-tab" data-tab="travel">旅行计划</div>
-        </nav>
+        <!-- 温馨首页网格 -->
+        <div class="homepage-grid" id="homepage-grid">
+            <div class="feature-card" data-section="memories">
+                <span class="feature-icon">📸</span>
+                <div class="feature-title">甜蜜相册</div>
+                <div class="feature-desc">珍藏我们的美好瞬间</div>
+            </div>
+            
+            <div class="feature-card" data-section="music">
+                <span class="feature-icon">🎵</span>
+                <div class="feature-title">专属音乐</div>
+                <div class="feature-desc">我们的爱情旋律</div>
+            </div>
+            
+            <div class="feature-card" data-section="diary">
+                <span class="feature-icon">📖</span>
+                <div class="feature-title">恋爱日记</div>
+                <div class="feature-desc">记录每天的小确幸</div>
+            </div>
+            
+            <div class="feature-card" data-section="expense">
+                <span class="feature-icon">💰</span>
+                <div class="feature-title">共同记账</div>
+                <div class="feature-desc">规划我们的未来</div>
+            </div>
+            
+            <div class="feature-card" data-section="travel">
+                <span class="feature-icon">✈️</span>
+                <div class="feature-title">旅行计划</div>
+                <div class="feature-desc">期待一起看世界</div>
+            </div>
+            
+            <div class="feature-card" data-section="countdowns">
+                <span class="feature-icon">⏰</span>
+                <div class="feature-title">重要日期</div>
+                <div class="feature-desc">倒数我们的纪念日</div>
+            </div>
+        </div>
         
+        <!-- 内容区域 -->
         <main>
-            <section id="memories" class="content-section active">
+            <section id="memories" class="content-section">
+                <button class="back-btn" id="back-memories">返回首页</button>
                 <div class="section-title">
-                    <span>我们的回忆</span>
+                    <span>我们的甜蜜相册</span>
                     <button class="add-btn" id="add-photo-btn">+</button>
                 </div>
                 <div class="album-grid" id="album-container">
@@ -487,6 +655,7 @@
             </section>
             
             <section id="music" class="content-section">
+                <button class="back-btn" id="back-music">返回首页</button>
                 <div class="section-title">
                     <span>专属音乐</span>
                     <button class="add-btn" id="add-music-btn">+</button>
@@ -503,6 +672,7 @@
             </section>
             
             <section id="diary" class="content-section">
+                <button class="back-btn" id="back-diary">返回首页</button>
                 <div class="section-title">
                     <span>恋爱日记</span>
                     <button class="add-btn" id="add-diary-btn">+</button>
@@ -513,6 +683,7 @@
             </section>
             
             <section id="expense" class="content-section">
+                <button class="back-btn" id="back-expense">返回首页</button>
                 <div class="section-title">
                     <span>共同记账</span>
                     <button class="add-btn" id="add-expense-btn">+</button>
@@ -545,6 +716,7 @@
             </section>
             
             <section id="travel" class="content-section">
+                <button class="back-btn" id="back-travel">返回首页</button>
                 <div class="section-title">
                     <span>旅行计划</span>
                     <button class="add-btn" id="add-travel-btn">+</button>
@@ -553,10 +725,21 @@
                     <!-- 旅行计划内容将通过JavaScript动态加载 -->
                 </div>
             </section>
+            
+            <section id="countdowns" class="content-section">
+                <button class="back-btn" id="back-countdowns">返回首页</button>
+                <div class="section-title">
+                    <span>重要日期</span>
+                    <button class="add-btn" id="add-countdown-btn">+</button>
+                </div>
+                <div id="countdowns-container">
+                    <!-- 倒计时内容将通过JavaScript动态加载 -->
+                </div>
+            </section>
         </main>
     </div>
     
-    <!-- 倒计时编辑模态框 -->
+    <!-- 模态框部分保持不变 -->
     <div class="modal" id="countdown-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -575,7 +758,6 @@
         </div>
     </div>
     
-    <!-- 照片上传模态框 -->
     <div class="modal" id="photo-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -594,7 +776,28 @@
         </div>
     </div>
     
-    <!-- 日记添加模态框 -->
+    <div class="modal" id="music-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加音乐</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="music-title">歌曲标题</label>
+                <input type="text" id="music-title" class="form-control" placeholder="歌曲名称">
+            </div>
+            <div class="form-group">
+                <label for="music-artist">歌手</label>
+                <input type="text" id="music-artist" class="form-control" placeholder="歌手名称">
+            </div>
+            <div class="form-group">
+                <label for="music-url">音乐URL</label>
+                <input type="text" id="music-url" class="form-control" placeholder="音乐文件链接">
+            </div>
+            <button class="btn" id="save-music-btn">保存音乐</button>
+        </div>
+    </div>
+    
     <div class="modal" id="diary-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -613,11 +816,33 @@
         </div>
     </div>
     
+    <div class="modal" id="travel-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加旅行计划</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="travel-destination">目的地</label>
+                <input type="text" id="travel-destination" class="form-control" placeholder="想去的地方">
+            </div>
+            <div class="form-group">
+                <label for="travel-date">计划日期</label>
+                <input type="date" id="travel-date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="travel-details">计划详情</label>
+                <textarea id="travel-details" class="form-control" rows="3" placeholder="旅行计划和想法"></textarea>
+            </div>
+            <button class="btn" id="save-travel-btn">保存计划</button>
+        </div>
+    </div>
+
     <script>
         // 数据存储和管理
         const AppData = {
             // 从localStorage加载数据或使用默认数据
-            avatar: localStorage.getItem('coupleAvatar') || "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY5YTllIi8+CiAgPHBhdGggZD0iTTUwLDgwIEMzMCw2MCAxMCw0MCA1MCwyMCBDOTAsNDAgNzAsNjAgNTAsODAgWiIgZmlsbD0iI2ZmNmI5MyIvPgo8L3N2Zz4=",
+            avatar: localStorage.getItem('coupleAvatar') || "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY5YTllIi8+CiAgPHBhdGggZD0iTTUwLDgwIEM0MCw3MCAyMCw1MCA1MCwzMCBDODAsNTAgNjAsNzAgNTAsODAgWiIgZmlsbD0iI2ZmNmI5MyIvPgo8L3N2Zz4=",
             
             photos: JSON.parse(localStorage.getItem('couplePhotos')) || [
                 {
@@ -675,23 +900,57 @@
             // 生成新ID
             generateId: function(array) {
                 return array.length > 0 ? Math.max(...array.map(item => item.id)) + 1 : 1;
+            },
+            
+            // 删除项目
+            deleteItem: function(array, id) {
+                const index = array.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    array.splice(index, 1);
+                    this.saveData();
+                    return true;
+                }
+                return false;
             }
         };
         
-        // 初始化标签切换功能
-        function initTabs() {
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // 移除所有active类
-                    tabs.forEach(t => t.classList.remove('active'));
+        // 初始化功能卡片点击事件
+        function initFeatureCards() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const sectionId = card.dataset.section;
+                    showSection(sectionId);
+                });
+            });
+        }
+        
+        // 显示特定内容区域
+        function showSection(sectionId) {
+            // 隐藏首页网格
+            document.getElementById('homepage-grid').style.display = 'none';
+            
+            // 隐藏所有内容区域
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // 显示选定的内容区域
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        // 初始化返回按钮
+        function initBackButtons() {
+            const backButtons = document.querySelectorAll('.back-btn');
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 隐藏所有内容区域
                     document.querySelectorAll('.content-section').forEach(section => {
                         section.classList.remove('active');
                     });
                     
-                    // 添加active类到当前标签和对应内容
-                    tab.classList.add('active');
-                    document.getElementById(tab.dataset.tab).classList.add('active');
+                    // 显示首页网格
+                    document.getElementById('homepage-grid').style.display = 'grid';
                 });
             });
         }
@@ -728,12 +987,13 @@
         // 初始化相册
         function initAlbum() {
             const albumContainer = document.getElementById('album-container');
-            albumContainer.innerHTML = '';
             
             if (AppData.photos.length === 0) {
                 albumContainer.innerHTML = '<div class="empty-state">还没有照片，点击+添加第一张照片</div>';
                 return;
             }
+            
+            albumContainer.innerHTML = '';
             
             // 添加上传按钮
             const uploadItem = document.createElement('div');
@@ -753,9 +1013,19 @@
                 albumItem.className = 'album-item';
                 albumItem.innerHTML = `
                     <img src="${photo.src}" alt="${photo.caption}" onclick="showPhotoDetail(${photo.id})">
+                    <button class="delete-btn" onclick="deletePhoto(${photo.id})">×</button>
                 `;
                 albumContainer.appendChild(albumItem);
             });
+        }
+        
+        // 删除照片
+        function deletePhoto(id) {
+            if (confirm('确定要删除这张照片吗？')) {
+                if (AppData.deleteItem(AppData.photos, id)) {
+                    initAlbum();
+                }
+            }
         }
         
         // 初始化音乐播放器
@@ -773,8 +1043,11 @@
                 songItem.className = 'playlist-item';
                 if (index === 0) songItem.classList.add('active');
                 songItem.innerHTML = `
-                    <div><strong>${song.title}</strong></div>
-                    <div style="font-size: 0.8rem; color: #666;">${song.artist}</div>
+                    <div>
+                        <div><strong>${song.title}</strong></div>
+                        <div style="font-size: 0.8rem; color: #666;">${song.artist}</div>
+                    </div>
+                    <button class="item-delete" onclick="deleteSong(${song.id})">×</button>
                 `;
                 songItem.addEventListener('click', () => {
                     document.querySelectorAll('.playlist-item').forEach(item => {
@@ -787,6 +1060,15 @@
                 });
                 playlistContainer.appendChild(songItem);
             });
+        }
+        
+        // 删除歌曲
+        function deleteSong(id) {
+            if (confirm('确定要删除这首歌曲吗？')) {
+                if (AppData.deleteItem(AppData.songs, id)) {
+                    initMusicPlayer();
+                }
+            }
         }
         
         // 初始化日记
@@ -806,9 +1088,19 @@
                     <div class="diary-date">${diary.date}</div>
                     <h3>${diary.title}</h3>
                     <div class="diary-content">${diary.content}</div>
+                    <button class="item-delete" onclick="deleteDiary(${diary.id})">×</button>
                 `;
                 diaryContainer.appendChild(diaryItem);
             });
+        }
+        
+        // 删除日记
+        function deleteDiary(id) {
+            if (confirm('确定要删除这篇日记吗？')) {
+                if (AppData.deleteItem(AppData.diaries, id)) {
+                    initDiary();
+                }
+            }
         }
         
         // 初始化记账
@@ -833,6 +1125,7 @@
                         <div style="font-size: 0.8rem; color: #666;">${expense.category} • ${expense.date}</div>
                     </div>
                     <div style="font-weight: bold;">¥${parseFloat(expense.amount).toFixed(2)}</div>
+                    <button class="item-delete" onclick="deleteExpense(${expense.id})">×</button>
                 `;
                 expenseContainer.appendChild(expenseItem);
             });
@@ -847,6 +1140,15 @@
                 <div>¥${total.toFixed(2)}</div>
             `;
             expenseContainer.appendChild(totalItem);
+        }
+        
+        // 删除记账记录
+        function deleteExpense(id) {
+            if (confirm('确定要删除这条记账记录吗？')) {
+                if (AppData.deleteItem(AppData.expenses, id)) {
+                    initExpense();
+                }
+            }
         }
         
         // 初始化旅行计划
@@ -866,9 +1168,19 @@
                     <div class="travel-date">${plan.date}</div>
                     <div class="travel-destination">${plan.destination}</div>
                     <div>${plan.details}</div>
+                    <button class="item-delete" onclick="deleteTravelPlan(${plan.id})">×</button>
                 `;
                 travelContainer.appendChild(travelItem);
             });
+        }
+        
+        // 删除旅行计划
+        function deleteTravelPlan(id) {
+            if (confirm('确定要删除这个旅行计划吗？')) {
+                if (AppData.deleteItem(AppData.travelPlans, id)) {
+                    initTravelPlans();
+                }
+            }
         }
         
         // 显示照片详情
@@ -974,7 +1286,7 @@
                             
                             AppData.photos.push(newPhoto);
                             AppData.saveData();
-                            initAlbum(); // 修复：立即重新初始化相册
+                            initAlbum();
                         };
                         
                         reader.readAsDataURL(file);
@@ -1008,7 +1320,7 @@
                         
                         AppData.photos.push(newPhoto);
                         AppData.saveData();
-                        initAlbum(); // 修复：立即重新初始化相册
+                        initAlbum();
                     };
                     
                     reader.readAsDataURL(file);
@@ -1018,6 +1330,39 @@
                 document.getElementById('photo-desc').value = '';
                 document.getElementById('photo-upload').value = '';
                 alert(`成功添加了 ${files.length} 张照片！`);
+            });
+            
+            // 添加音乐按钮
+            document.getElementById('add-music-btn').addEventListener('click', () => {
+                document.getElementById('music-modal').style.display = 'flex';
+            });
+            
+            // 保存音乐
+            document.getElementById('save-music-btn').addEventListener('click', () => {
+                const title = document.getElementById('music-title').value;
+                const artist = document.getElementById('music-artist').value;
+                const url = document.getElementById('music-url').value;
+                
+                if (title && artist && url) {
+                    const newSong = {
+                        id: AppData.generateId(AppData.songs),
+                        title: title,
+                        artist: artist,
+                        src: url
+                    };
+                    
+                    AppData.songs.push(newSong);
+                    AppData.saveData();
+                    initMusicPlayer();
+                    document.getElementById('music-modal').style.display = 'none';
+                    
+                    // 清空表单
+                    document.getElementById('music-title').value = '';
+                    document.getElementById('music-artist').value = '';
+                    document.getElementById('music-url').value = '';
+                } else {
+                    alert('请填写完整的音乐信息');
+                }
             });
             
             // 添加日记按钮
@@ -1046,7 +1391,6 @@
                     // 清空表单
                     document.getElementById('diary-title').value = '';
                     document.getElementById('diary-content').value = '';
-                    alert('日记保存成功！');
                 } else {
                     alert('请填写完整的日记信息');
                 }
@@ -1074,7 +1418,6 @@
                     // 清空表单
                     document.getElementById('expense-desc').value = '';
                     document.getElementById('expense-amount').value = '';
-                    alert('记账保存成功！');
                 } else {
                     alert('请填写完整的记账信息');
                 }
@@ -1084,11 +1427,40 @@
             document.getElementById('add-travel-btn').addEventListener('click', () => {
                 document.getElementById('travel-modal').style.display = 'flex';
             });
+            
+            // 保存旅行计划
+            document.getElementById('save-travel-btn').addEventListener('click', () => {
+                const destination = document.getElementById('travel-destination').value;
+                const date = document.getElementById('travel-date').value;
+                const details = document.getElementById('travel-details').value;
+                
+                if (destination && date) {
+                    const newTravel = {
+                        id: AppData.generateId(AppData.travelPlans),
+                        destination: destination,
+                        date: date,
+                        details: details
+                    };
+                    
+                    AppData.travelPlans.push(newTravel);
+                    AppData.saveData();
+                    initTravelPlans();
+                    document.getElementById('travel-modal').style.display = 'none';
+                    
+                    // 清空表单
+                    document.getElementById('travel-destination').value = '';
+                    document.getElementById('travel-date').value = '';
+                    document.getElementById('travel-details').value = '';
+                } else {
+                    alert('请填写完整的旅行计划信息');
+                }
+            });
         }
         
         // 页面加载完成后初始化
         window.addEventListener('load', function() {
-            initTabs();
+            initFeatureCards();
+            initBackButtons();
             initAvatarUpload();
             initAlbum();
             initMusicPlayer();
