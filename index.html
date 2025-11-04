@@ -188,7 +188,6 @@
             justify-content: center;
         }
         
-        /* 相册样式 */
         .album-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -224,12 +223,6 @@
             cursor: pointer;
         }
         
-        .album-upload span {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-        
-        /* 音乐播放器样式 */
         .music-player {
             background: #f9f9f9;
             border-radius: 15px;
@@ -264,7 +257,6 @@
             background: rgba(255, 107, 147, 0.1);
         }
         
-        /* 日记样式 */
         .diary-list {
             display: flex;
             flex-direction: column;
@@ -288,7 +280,6 @@
             margin: 10px 0;
         }
         
-        /* 记账样式 */
         .expense-form {
             background: white;
             border-radius: 10px;
@@ -337,7 +328,6 @@
             border-bottom: 1px solid #eee;
         }
         
-        /* 旅游计划样式 */
         .travel-plan {
             background: white;
             border-radius: 10px;
@@ -357,7 +347,42 @@
             margin: 5px 0;
         }
         
-        /* 模态框样式 */
+        @media (max-width: 360px) {
+            .album-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-title {
+                font-size: 1.3rem;
+            }
+            
+            .avatar-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 500px;
+            }
+        }
+        
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: var(--light-text);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -408,43 +433,6 @@
             cursor: pointer;
             margin-bottom: 10px;
         }
-        
-        /* 响应式设计 */
-        @media (max-width: 360px) {
-            .album-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .app-title {
-                font-size: 1.3rem;
-            }
-            
-            .avatar-container {
-                width: 80px;
-                height: 80px;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 500px;
-            }
-        }
-        
-        .no-select {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: var(--light-text);
-        }
     </style>
 </head>
 <body>
@@ -488,7 +476,6 @@
         </nav>
         
         <main>
-            <!-- 相册部分 -->
             <section id="memories" class="content-section active">
                 <div class="section-title">
                     <span>我们的回忆</span>
@@ -499,7 +486,6 @@
                 </div>
             </section>
             
-            <!-- 音乐部分 -->
             <section id="music" class="content-section">
                 <div class="section-title">
                     <span>专属音乐</span>
@@ -516,7 +502,6 @@
                 </div>
             </section>
             
-            <!-- 日记部分 -->
             <section id="diary" class="content-section">
                 <div class="section-title">
                     <span>恋爱日记</span>
@@ -527,7 +512,6 @@
                 </div>
             </section>
             
-            <!-- 记账部分 -->
             <section id="expense" class="content-section">
                 <div class="section-title">
                     <span>共同记账</span>
@@ -560,7 +544,6 @@
                 </div>
             </section>
             
-            <!-- 旅行计划部分 -->
             <section id="travel" class="content-section">
                 <div class="section-title">
                     <span>旅行计划</span>
@@ -611,29 +594,6 @@
         </div>
     </div>
     
-    <!-- 音乐添加模态框 -->
-    <div class="modal" id="music-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>添加音乐</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="form-group">
-                <label for="music-title">歌曲标题</label>
-                <input type="text" id="music-title" class="form-control" placeholder="歌曲名称">
-            </div>
-            <div class="form-group">
-                <label for="music-artist">歌手</label>
-                <input type="text" id="music-artist" class="form-control" placeholder="歌手名称">
-            </div>
-            <div class="form-group">
-                <label for="music-url">音乐URL</label>
-                <input type="text" id="music-url" class="form-control" placeholder="音乐文件链接">
-            </div>
-            <button class="btn" id="save-music-btn">保存音乐</button>
-        </div>
-    </div>
-    
     <!-- 日记添加模态框 -->
     <div class="modal" id="diary-modal">
         <div class="modal-content">
@@ -653,29 +613,6 @@
         </div>
     </div>
     
-    <!-- 旅行计划模态框 -->
-    <div class="modal" id="travel-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>添加旅行计划</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="form-group">
-                <label for="travel-destination">目的地</label>
-                <input type="text" id="travel-destination" class="form-control" placeholder="想去的地方">
-            </div>
-            <div class="form-group">
-                <label for="travel-date">计划日期</label>
-                <input type="date" id="travel-date" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="travel-details">计划详情</label>
-                <textarea id="travel-details" class="form-control" rows="3" placeholder="旅行计划和想法"></textarea>
-            </div>
-            <button class="btn" id="save-travel-btn">保存计划</button>
-        </div>
-    </div>
-
     <script>
         // 数据存储和管理
         const AppData = {
@@ -791,13 +728,12 @@
         // 初始化相册
         function initAlbum() {
             const albumContainer = document.getElementById('album-container');
+            albumContainer.innerHTML = '';
             
             if (AppData.photos.length === 0) {
                 albumContainer.innerHTML = '<div class="empty-state">还没有照片，点击+添加第一张照片</div>';
                 return;
             }
-            
-            albumContainer.innerHTML = '';
             
             // 添加上传按钮
             const uploadItem = document.createElement('div');
@@ -1038,7 +974,7 @@
                             
                             AppData.photos.push(newPhoto);
                             AppData.saveData();
-                            initAlbum();
+                            initAlbum(); // 修复：立即重新初始化相册
                         };
                         
                         reader.readAsDataURL(file);
@@ -1050,37 +986,38 @@
                 }
             });
             
-            // 添加音乐按钮
-            document.getElementById('add-music-btn').addEventListener('click', () => {
-                document.getElementById('music-modal').style.display = 'flex';
-            });
-            
-            // 保存音乐
-            document.getElementById('save-music-btn').addEventListener('click', () => {
-                const title = document.getElementById('music-title').value;
-                const artist = document.getElementById('music-artist').value;
-                const url = document.getElementById('music-url').value;
+            // 保存照片按钮
+            document.getElementById('save-photo-btn').addEventListener('click', () => {
+                const files = document.getElementById('photo-upload').files;
+                if (files.length === 0) {
+                    alert('请先选择照片');
+                    return;
+                }
                 
-                if (title && artist && url) {
-                    const newSong = {
-                        id: AppData.generateId(AppData.songs),
-                        title: title,
-                        artist: artist,
-                        src: url
+                const desc = document.getElementById('photo-desc').value || '我们的照片';
+                
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const newPhoto = {
+                            id: AppData.generateId(AppData.photos),
+                            src: e.target.result,
+                            caption: desc
+                        };
+                        
+                        AppData.photos.push(newPhoto);
+                        AppData.saveData();
+                        initAlbum(); // 修复：立即重新初始化相册
                     };
                     
-                    AppData.songs.push(newSong);
-                    AppData.saveData();
-                    initMusicPlayer();
-                    document.getElementById('music-modal').style.display = 'none';
-                    
-                    // 清空表单
-                    document.getElementById('music-title').value = '';
-                    document.getElementById('music-artist').value = '';
-                    document.getElementById('music-url').value = '';
-                } else {
-                    alert('请填写完整的音乐信息');
-                }
+                    reader.readAsDataURL(file);
+                });
+                
+                document.getElementById('photo-modal').style.display = 'none';
+                document.getElementById('photo-desc').value = '';
+                document.getElementById('photo-upload').value = '';
+                alert(`成功添加了 ${files.length} 张照片！`);
             });
             
             // 添加日记按钮
@@ -1109,6 +1046,7 @@
                     // 清空表单
                     document.getElementById('diary-title').value = '';
                     document.getElementById('diary-content').value = '';
+                    alert('日记保存成功！');
                 } else {
                     alert('请填写完整的日记信息');
                 }
@@ -1136,6 +1074,7 @@
                     // 清空表单
                     document.getElementById('expense-desc').value = '';
                     document.getElementById('expense-amount').value = '';
+                    alert('记账保存成功！');
                 } else {
                     alert('请填写完整的记账信息');
                 }
@@ -1144,34 +1083,6 @@
             // 添加旅行计划按钮
             document.getElementById('add-travel-btn').addEventListener('click', () => {
                 document.getElementById('travel-modal').style.display = 'flex';
-            });
-            
-            // 保存旅行计划
-            document.getElementById('save-travel-btn').addEventListener('click', () => {
-                const destination = document.getElementById('travel-destination').value;
-                const date = document.getElementById('travel-date').value;
-                const details = document.getElementById('travel-details').value;
-                
-                if (destination && date) {
-                    const newTravel = {
-                        id: AppData.generateId(AppData.travelPlans),
-                        destination: destination,
-                        date: date,
-                        details: details
-                    };
-                    
-                    AppData.travelPlans.push(newTravel);
-                    AppData.saveData();
-                    initTravelPlans();
-                    document.getElementById('travel-modal').style.display = 'none';
-                    
-                    // 清空表单
-                    document.getElementById('travel-destination').value = '';
-                    document.getElementById('travel-date').value = '';
-                    document.getElementById('travel-details').value = '';
-                } else {
-                    alert('请填写完整的旅行计划信息');
-                }
             });
         }
         
